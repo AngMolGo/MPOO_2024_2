@@ -150,6 +150,14 @@ class TableroKanban {
         agregarTarea(_tarea, campo_destino);
     }
 
+    public void eliminarTarea(String campo) {
+        if (!isCampo(campo)) {
+            System.out.println("No se pudo eliminar la tarea. No existe el campo.");
+            return;
+        }
+        camposList.get(camposMap.get(campo)).remove(camposList.get(camposMap.get(campo)).size()-1);
+    }
+
     public void eliminarTarea(String campo, int index) {
         if (!isCampo(campo)) {
             System.out.println("No se pudo eliminar la tarea. No existe el campo.");
@@ -247,7 +255,7 @@ public class Proyecto2 {
                         if (tablero.getCampoList("To-do").isEmpty()) {
                             System.out.println("\n> No hay tareas pendientes.");
                         } else {
-                            tablero.eliminarTarea("To-do", 0);
+                            tablero.eliminarTarea("To-do");
                             System.out.println("\n> Eliminando tarea");
                         }
                         break;
