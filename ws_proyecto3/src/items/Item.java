@@ -1,5 +1,5 @@
 package src.items;
 
-public interface Item {
+public class Item {
     
 }

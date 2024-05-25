@@ -2,7 +2,7 @@
 
 Instrucciones para clonar el proyecto y correrlo:
 
-1. **Clonar** el repositorio con Git:
+1. **Clonar** el repositorio (ws_proyecto3) con Git:
 ```
 git clone --no-checkout https://github.com/AngMolGo/MPOO_2024_2 temp-repo
 cd temp-repo/

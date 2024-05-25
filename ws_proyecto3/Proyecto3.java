@@ -83,7 +83,7 @@ public class Proyecto3 {
         pokemonesList.add(pokemonLucha);
 
         // ### Pokemon Planta ###
-        PokemonPlanta pokemonPlanta = new PokemonPlanta("Venusaur", 50);
+        PokemonPlanta pokemonPlanta = new PokemonPlanta("Bulbasaur", 50);
         pokemonPlanta.addAtaque(ataqueNormal_);
         pokemonPlanta.addAtaque(new AtaquePlanta("Latigazo", 45));
         pokemonPlanta.addAtaque(new AtaquePlanta("Rayo Solar", 120));
@@ -134,76 +134,65 @@ public class Proyecto3 {
 
     public static void main(String[] args) {
 
-        generarPokemones();
-        for(Pokemon pokemon : pokemonesList){
-            System.out.println("----------------------------");
-            pokemon.imprimirInformacion();
-        }
-    }
-
-    static public void combateDePrueba_Practica11y12() {
-
         Random r = new Random();
+        Menu menu = new Menu();
 
-        // Creamos dos pokemon para el combate
-        Pokemon charizard = new PokemonFuego("Charizard", 50);
-        Pokemon venusaur = new PokemonPlanta("Venusaur", 50);
-        charizard.imprimirInformacion();
-        venusaur.imprimirInformacion();
-        System.out.println("--------------");
+        generarPokemones();
 
-        // Creamos ataques para los Pokémon
-        //AtaqueFuego lanzallamas = new AtaqueFuego("Lanzallamas", 50);
-        //AtaquePlanta hojaAfilada = new AtaquePlanta("Hoja Afilada", 50);
-        AtaqueNormal tacleo = new AtaqueNormal("Tacleo", 40);
+        // CAMBIAR TODO ESTO, POR AHORA ES PARA PROBAR EL CÓDIGO
+        Entrenador yo = menu.inicio(pokemonesList);
+        yo.addPokemon(pokemonesList.get(r.nextInt(pokemonesList.size()-1)));
+
+        Pokemon pokemonSalvaje = pokemonesList.get(r.nextInt(pokemonesList.size()-1));
+        Entrenador pokemonRival = new PokemonSalvaje_tipoEntrenador("Pokemon salvaje", pokemonSalvaje);
 
         // Iniciamos combate
         Combate combate = new Combate();
-        while (charizard.getVida() > 0 && venusaur.getVida() > 0) {
+        while (yo.getPokemon().getVida() > 0 && pokemonRival.getPokemon().getVida() > 0) {
 
-            System.out.println("Selecciona una opción");
+            //System.out.println("Selecciona una opción");
 
             int velocidadIgual = r.nextInt(2);
-            if (charizard.getVelocidad() > venusaur.getVelocidad()) {
-                combate.atacar(charizard, venusaur, tacleo);
-                if (venusaur.getVida() <= 0) {
-                    System.out.println("¡" + venusaur.getNombre() + " se ha desmayado!");
+            if (yo.getPokemon().getVelocidad() > pokemonRival.getPokemon().getVelocidad()) {
+                combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
+                if (pokemonRival.getPokemon().getVida() <= 0) {
+                    System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!");
                 } else {
-                    combate.atacar(venusaur, charizard, tacleo);
+                    combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
                 }
-            } else if (venusaur.getVelocidad() > charizard.getVelocidad()) {
-                combate.atacar(venusaur, charizard, tacleo);
-                if (charizard.getVida() <= 0) {
-                    System.out.println("¡" + charizard.getNombre() + " se ha desmayado!");
+            } else if (pokemonRival.getPokemon().getVelocidad() > yo.getPokemon().getVelocidad()) {
+                combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
+                if (yo.getPokemon().getVida() <= 0) {
+                    System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!");
                 } else {
-                    combate.atacar(charizard, venusaur, tacleo);
+                    combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
                 }
             } else {
                 if (velocidadIgual == 0) {
-                    combate.atacar(charizard, venusaur, tacleo);
-                    if (venusaur.getVida() <= 0) {
-                        System.out.println("¡" + venusaur.getNombre() + " se ha desmayado!");
+                    combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
+                    if (pokemonRival.getPokemon().getVida() <= 0) {
+                        System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!");
                     } else {
-                        combate.atacar(venusaur, charizard, tacleo);
+                        combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
                     }
                 } else {
-                    combate.atacar(venusaur, charizard, tacleo);
-                    if (charizard.getVida() <= 0) {
-                        System.out.println("¡" + charizard.getNombre() + " se ha desmayado!");
+                    combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
+                    if (yo.getPokemon().getVida() <= 0) {
+                        System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!");
                     } else {
-                        combate.atacar(charizard, venusaur, tacleo);
+                        combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
                     }
                 }
             }
-            if (charizard.getVida() <= 0) {
-                System.out.println("\n> ¡" + charizard.getNombre() + " ha sido derrotado!, ¡" + venusaur.getNombre()
+            if (yo.getPokemon().getVida() <= 0) {
+                System.out.println("\n> ¡" + yo.getPokemon().getName() + " ha sido derrotado!, ¡" + pokemonRival.getPokemon().getName()
                         + " ha ganado! <\n");
-            } else if (venusaur.getVida() <= 0) {
-                System.out.println("\n> ¡" + charizard.getNombre() + " ha sido derrotado!, ¡" + venusaur.getNombre()
+            } else if (pokemonRival.getPokemon().getVida() <= 0) {
+                System.out.println("\n> ¡" + yo.getPokemon().getName() + " ha sido derrotado!, ¡" + pokemonRival.getPokemon().getName()
                         + " ha ganado! <\n");
             } else {
                 System.out.println("------------------");
             }
         }
-    }
-}
+
+    }}
