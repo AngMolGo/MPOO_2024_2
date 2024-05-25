@@ -31,7 +31,7 @@ public class Entrenador {
         itemsList.add(item);
     }
 
-    // Método para usar (quitar) Items
+    // Método para usar (quitar) Items, regresa el objeto Item a utilizar
     public Item useItem(int index){
         if(itemsList.isEmpty()){
             return null;
@@ -45,7 +45,7 @@ public class Entrenador {
         pokemonesList.add(pokemon);
     }
 
-    // Método para liberar (eliminar) Pokemones
+    // Método para liberar (eliminar) Pokemones, regresa el objeto Pokemon a retirar
     public Pokemon popPokemon(int index){
         if(pokemonesList.isEmpty()){
             return null;

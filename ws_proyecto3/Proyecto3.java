@@ -139,11 +139,9 @@ public class Proyecto3 {
             System.out.println("----------------------------");
             pokemon.imprimirInformacion();
         }
-
-
     }
 
-    static public void combateDePrueba() {
+    static public void combateDePrueba_Practica11y12() {
 
         Random r = new Random();
 
