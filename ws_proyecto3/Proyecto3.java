@@ -3,6 +3,8 @@ import src.pokemones.*;
 import src.ctrl_game.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Proyecto3 {
@@ -11,14 +13,14 @@ public class Proyecto3 {
 
     static private void generarPokemones() {
         AtaqueNormal ataqueNormal_ = new AtaqueNormal("Tacleo", 50);
-        
+
         // ### Pokemon Normal ###
         PokemonNormal pokemonNormal = new PokemonNormal("Eevee", 50);
         pokemonNormal.addAtaque(ataqueNormal_);
         pokemonNormal.addAtaque(new AtaqueNormal("Golpe", 40));
         pokemonNormal.addAtaque(new AtaqueNormal("Ataque Rápido", 30));
         pokemonesList.add(pokemonNormal);
-        
+
         // ### Pokemon Acero ###
         PokemonAcero pokemonAcero = new PokemonAcero("Steelix", 50);
         pokemonAcero.addAtaque(ataqueNormal_);
@@ -134,65 +136,72 @@ public class Proyecto3 {
 
     public static void main(String[] args) {
 
+        System.out.println("\n##################### TERCER PROYECTO PARCIAL ##################\n");
+
         Random r = new Random();
         Menu menu = new Menu();
 
         generarPokemones();
 
-        // CAMBIAR TODO ESTO, POR AHORA ES PARA PROBAR EL CÓDIGO
-        Entrenador yo = menu.inicio(pokemonesList);
-        yo.addPokemon(pokemonesList.get(r.nextInt(pokemonesList.size()-1)));
+        // ############### PRUEBAS DE CODIGO #################
+        // Por ahora, se le asigna el nombre y el pokemon al jugador
+        // Cambiarlo por la entrada del nombre y poder escoger tu pokemon
 
-        Pokemon pokemonSalvaje = pokemonesList.get(r.nextInt(pokemonesList.size()-1));
+        Entrenador yo = menu.inicio(pokemonesList);
+        yo.addPokemon(pokemonesList.get(r.nextInt(pokemonesList.size() - 1)));
+
+        // ###################################################
+
+        Pokemon pokemonSalvaje = pokemonesList.get(r.nextInt(pokemonesList.size() - 1));
         Entrenador pokemonRival = new PokemonSalvaje_tipoEntrenador("Pokemon salvaje", pokemonSalvaje);
 
         // Iniciamos combate
-        Combate combate = new Combate();
-        while (yo.getPokemon().getVida() > 0 && pokemonRival.getPokemon().getVida() > 0) {
+        Combate combate = new Combate(yo, pokemonRival);
 
-            //System.out.println("Selecciona una opción");
+        while (!combate.isGameOver()) {
 
-            int velocidadIgual = r.nextInt(2);
-            if (yo.getPokemon().getVelocidad() > pokemonRival.getPokemon().getVelocidad()) {
-                combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
-                if (pokemonRival.getPokemon().getVida() <= 0) {
-                    System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!");
-                } else {
-                    combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
+            // ###### PARTE DE MENU DONDE SE DICE QUÉ SE QUIERE HACER EL JUGADOR #####
+
+            yo.setAcciones(menu.desplegarMenuPrincipal(yo));
+            pokemonRival.setAcciones(new ArrayList<Integer>(List.of(1,1)));
+
+            // Al final se registrará una lista de instrucciones que se utilizará para la
+            // lógica del código
+            // #######################################################################
+
+            Entrenador va_primero = combate.quienVaPrimero();
+            Entrenador va_segunds = combate.quienVaSegunds();
+            Entrenador turno_actual = null;
+            Entrenador rival_actual = null;
+
+            for (int i = 0; i < 2; i++) {
+                if(i == 0) { turno_actual = va_primero; rival_actual=va_segunds; }
+                if(i == 1) { turno_actual = va_segunds; rival_actual=va_primero; }
+
+                // LAS ACCIONES DEL POKEMON
+                //System.out.println("Acciones a realizar: " + turno_actual.getAcciones());
+                switch (turno_actual.getAcciones().get(0)) {
+                    case 1: // OPCION 0: ATAQUE
+                        combate.atacar(turno_actual.getPokemon(), rival_actual.getPokemon(), turno_actual.getPokemon().getAtaqueRandom());
+                        break;
+                    case 2: // OPCION 1: HABILIDAD
+                        
+                        break;
+                    case 3: // OPCION 2: USAR OBJETO
+                        turno_actual.useItem(turno_actual.getAcciones().get(1));
+                        break;
+                    default:
+                        break;
                 }
-            } else if (pokemonRival.getPokemon().getVelocidad() > yo.getPokemon().getVelocidad()) {
-                combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
-                if (yo.getPokemon().getVida() <= 0) {
-                    System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!");
-                } else {
-                    combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
-                }
-            } else {
-                if (velocidadIgual == 0) {
-                    combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
-                    if (pokemonRival.getPokemon().getVida() <= 0) {
-                        System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!");
-                    } else {
-                        combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
-                    }
-                } else {
-                    combate.atacar(pokemonRival.getPokemon(), yo.getPokemon(), pokemonRival.getPokemon().getAtaqueRandom());
-                    if (yo.getPokemon().getVida() <= 0) {
-                        System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!");
-                    } else {
-                        combate.atacar(yo.getPokemon(), pokemonRival.getPokemon(), yo.getPokemon().getAtaqueRandom());
-                    }
-                }
+
+                if(yo.getPokemon().getVida() <= 0){System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!"); break;}
+                if(pokemonRival.getPokemon().getVida() <= 0){System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!"); break;}
+                
             }
-            if (yo.getPokemon().getVida() <= 0) {
-                System.out.println("\n> ¡" + yo.getPokemon().getName() + " ha sido derrotado!, ¡" + pokemonRival.getPokemon().getName()
-                        + " ha ganado! <\n");
-            } else if (pokemonRival.getPokemon().getVida() <= 0) {
-                System.out.println("\n> ¡" + yo.getPokemon().getName() + " ha sido derrotado!, ¡" + pokemonRival.getPokemon().getName()
-                        + " ha ganado! <\n");
-            } else {
-                System.out.println("------------------");
-            }
+
+            System.out.println("\n#######################\n");
+
         }
-
-    }}
+        combate.anunciar_ganador();
+    }
+}

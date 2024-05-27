@@ -13,6 +13,7 @@ public class Pokemon {
     private int nivel;
     private String tipo;
     private double vida;
+    private double vida_max;
     private double velocidad;
     private String estado_salud;
     private ArrayList<Ataque> ataquesList = new ArrayList<Ataque>();
@@ -25,6 +26,7 @@ public class Pokemon {
         this.nivel = nivel;
         this.tipo = tipo;
         this.vida = (r.nextDouble() * 5 + 1) * nivel;
+        this.vida_max = this.vida;
         this.velocidad = (r.nextDouble() * 3 + 1) * nivel;
         this.estado_salud = "sano";
     }
@@ -99,7 +101,9 @@ public class Pokemon {
 
     }
 
-
+    public double getVida_max() {
+        return vida_max;
+    }
 
     // ########### ATAQUES ###########
 

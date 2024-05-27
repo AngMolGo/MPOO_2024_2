@@ -2,13 +2,16 @@ package src.ctrl_game;
 
 import java.util.ArrayList;
 
+import src.items.CuraTotal;
 import src.items.Item;
+import src.items.Posion;
 import src.pokemones.Pokemon;
 
 public class Entrenador {
  
     private ArrayList<Item> itemsList = new ArrayList<Item>();
     private ArrayList<Pokemon> pokemonesList= new ArrayList<Pokemon>();
+    private ArrayList<Integer> listAcciones = new ArrayList<Integer>();
 
     String name;
 
@@ -17,6 +20,9 @@ public class Entrenador {
         if(initialPokemon != null){
             this.pokemonesList.add(initialPokemon);
         }
+        itemsList.add(new Posion("Posion", "Incrementa la salud"));
+        itemsList.add(new CuraTotal("Cura total", "Cura la salud del pokemon al 100%"));
+        listAcciones.clear();
     }
 
     // ######## INFORMACION DE ENTRENADOR ########
@@ -55,7 +61,21 @@ public class Entrenador {
         if(itemsList.isEmpty()){
             return null;
         }else{
-            return itemsList.remove(index);
+            System.out.println("\n-> Se usó " + itemsList.get(index-1).getName());
+            if(itemsList.get(index-1).getName() == "Cura total"){
+                pokemonesList.get(0).setVida(pokemonesList.get(0).getVida_max());
+                System.out.println("* Se incrementó toda la vida del pokemon");
+            }
+            else{
+                if(itemsList.get(index-1).getName() == "Posion"){
+                    pokemonesList.get(0).setVida(pokemonesList.get(0).getVida() + 20);
+                    if(pokemonesList.get(0).getVida() > pokemonesList.get(0).getVida_max()){
+                        pokemonesList.get(0).setVida(pokemonesList.get(0).getVida_max());
+                    }
+                    System.out.println("* Se incrementó 20 puntos de salud");
+                }
+            }
+            return itemsList.remove(index-1);
         }
     }
 
@@ -99,5 +119,13 @@ public class Entrenador {
     // Método para obtener (Lectura/copia) de la lista de pokemones
     public ArrayList<Pokemon> getPokemonsList(){
         return pokemonesList;
+    }
+
+    public void setAcciones(ArrayList<Integer> acciones){
+        this.listAcciones = acciones;
+    }
+
+    public ArrayList<Integer> getAcciones(){
+        return listAcciones;
     }
 }
