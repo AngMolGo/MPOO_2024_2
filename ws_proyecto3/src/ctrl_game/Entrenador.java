@@ -61,7 +61,7 @@ public class Entrenador {
         if(itemsList.isEmpty()){
             return null;
         }else{
-            System.out.println("\n-> Se usó " + itemsList.get(index-1).getName());
+            System.out.println("\n> Se usó " + itemsList.get(index-1).getName());
             if(itemsList.get(index-1).getName() == "Cura total"){
                 pokemonesList.get(0).setVida(pokemonesList.get(0).getVida_max());
                 System.out.println("* Se incrementó toda la vida del pokemon");

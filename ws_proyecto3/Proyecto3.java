@@ -3,7 +3,6 @@ import src.pokemones.*;
 import src.ctrl_game.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -162,8 +161,13 @@ public class Proyecto3 {
 
             // ###### PARTE DE MENU DONDE SE DICE QUÉ SE QUIERE HACER EL JUGADOR #####
 
+            System.out.println("(" + yo.getName() + ") " + yo.getPokemon().getName() + " -> HP:" + Math.round(yo.getPokemon().getVida()) + "/"
+                    + Math.round(yo.getPokemon().getVida_max()) + "\n" +
+                    "(" + pokemonRival.getName() + ") " + pokemonRival.getPokemon().getName() + " -> HP:" + Math.round(pokemonRival.getPokemon().getVida())
+                    + "/" + Math.round(pokemonRival.getPokemon().getVida_max()) + "\n");
+
             yo.setAcciones(menu.desplegarMenuPrincipal(yo));
-            pokemonRival.setAcciones(new ArrayList<Integer>(List.of(1,1)));
+            pokemonRival.setAcciones(new ArrayList<Integer>(List.of(1, r.nextInt(3)+1)));
 
             // Al final se registrará una lista de instrucciones que se utilizará para la
             // lógica del código
@@ -175,17 +179,25 @@ public class Proyecto3 {
             Entrenador rival_actual = null;
 
             for (int i = 0; i < 2; i++) {
-                if(i == 0) { turno_actual = va_primero; rival_actual=va_segunds; }
-                if(i == 1) { turno_actual = va_segunds; rival_actual=va_primero; }
+                if (i == 0) {
+                    turno_actual = va_primero;
+                    rival_actual = va_segunds;
+                }
+                if (i == 1) {
+                    turno_actual = va_segunds;
+                    rival_actual = va_primero;
+                }
 
                 // LAS ACCIONES DEL POKEMON
-                //System.out.println("Acciones a realizar: " + turno_actual.getAcciones());
+                // System.out.println("Acciones a realizar: " + turno_actual.getAcciones());
                 switch (turno_actual.getAcciones().get(0)) {
                     case 1: // OPCION 0: ATAQUE
-                        combate.atacar(turno_actual.getPokemon(), rival_actual.getPokemon(), turno_actual.getPokemon().getAtaqueRandom());
+                        //System.out.println(turno_actual.getAcciones());
+                        combate.atacar(turno_actual.getPokemon(), rival_actual.getPokemon(),
+                                turno_actual.getPokemon().getAtaque(turno_actual.getAcciones().get(1)-1));
                         break;
                     case 2: // OPCION 1: HABILIDAD
-                        
+
                         break;
                     case 3: // OPCION 2: USAR OBJETO
                         turno_actual.useItem(turno_actual.getAcciones().get(1));
@@ -194,9 +206,15 @@ public class Proyecto3 {
                         break;
                 }
 
-                if(yo.getPokemon().getVida() <= 0){System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!"); break;}
-                if(pokemonRival.getPokemon().getVida() <= 0){System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!"); break;}
-                
+                if (yo.getPokemon().getVida() <= 0) {
+                    System.out.println("¡" + yo.getPokemon().getName() + " se ha desmayado!");
+                    break;
+                }
+                if (pokemonRival.getPokemon().getVida() <= 0) {
+                    System.out.println("¡" + pokemonRival.getPokemon().getName() + " se ha desmayado!");
+                    break;
+                }
+
             }
 
             System.out.println("\n#######################\n");

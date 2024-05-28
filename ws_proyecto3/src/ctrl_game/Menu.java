@@ -39,9 +39,10 @@ public class Menu {
         ArrayList<Integer> accionesList = new ArrayList<Integer>();
         int opcionRegistrada;
         do {
-            System.out.print("1. Ataque\n" +
+            System.out.println("Acciones:");
+            System.out.print("1. Atacar\n" +
                     "2. Habilidad\n" +
-                    "3. Objeto\n" +
+                    "3. Objetos\n" +
                     "> Selecciona una opción: ");
             opcionRegistrada = menuScanner.nextInt();
             
@@ -75,8 +76,11 @@ public class Menu {
     public int desplegarMenuAtaque(ArrayList<Ataque> ataques) {
         int opcionRegistrada;
         do {
+            System.out.println("Ataques:");
             for (int i = 0; i < ataques.size(); i++) {
-                System.out.println(i + 1 + ". " + ataques.get(i).getNombre());
+                System.out.println(i + 1 + ". " + ataques.get(i).getNombre() +
+                                   " Pot: " + ataques.get(i).getPotencia() + 
+                                   " (" + ataques.get(i).getTipo() + ")");
             }
             System.out.print("> Escoge un ataque: ");
             opcionRegistrada = menuScanner.nextInt();
